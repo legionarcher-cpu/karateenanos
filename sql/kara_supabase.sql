@@ -196,6 +196,23 @@ begin
 end;
 $$;
 
+-- Modificar nombre y avatar de un sobrino (Panel del tío)
+create or replace function public.kara_editar_sobrino(p_id uuid, p_nombre text, p_avatar text)
+returns void
+language plpgsql security definer set search_path = public
+as $$
+begin
+    perform public.kara_comprobar_sobrino(p_id);
+    if coalesce(trim(p_nombre), '') = '' then
+        raise exception 'Falta el nombre';
+    end if;
+    update public.kara_sobrinos
+       set nombre = left(trim(p_nombre), 20),
+           avatar = left(coalesce(nullif(p_avatar, ''), avatar), 8)
+     where id = p_id;
+end;
+$$;
+
 -- Borrar un sobrino con todas sus estrellas
 create or replace function public.kara_borrar_sobrino(p_id uuid)
 returns void
@@ -285,6 +302,7 @@ revoke execute on function
     public.kara_comprobar_sobrino(uuid),
     public.kara_estado(),
     public.kara_agregar_sobrino(uuid, text, text),
+    public.kara_editar_sobrino(uuid, text, text),
     public.kara_borrar_sobrino(uuid),
     public.kara_sumar_estrellas(uuid, date, date, int, text, uuid),
     public.kara_marcar(uuid, text, date),
@@ -295,6 +313,7 @@ from public, anon, authenticated;
 grant execute on function
     public.kara_estado(),
     public.kara_agregar_sobrino(uuid, text, text),
+    public.kara_editar_sobrino(uuid, text, text),
     public.kara_borrar_sobrino(uuid),
     public.kara_sumar_estrellas(uuid, date, date, int, text, uuid),
     public.kara_marcar(uuid, text, date),

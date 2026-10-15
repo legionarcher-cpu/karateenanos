@@ -175,6 +175,8 @@ async function abrirVentana(nombre, origen = null, opciones = {}) {
     const contenido = await contenidoDe(nombre);
     if (ventanaActual !== nombre) return; // ya pidió otra
     if (contenido.parentNode !== cuerpo) cuerpo.replaceChildren(contenido);
+    // Barra "quién está jugando" de los juegos (js/perfiles.js)
+    if (contenido.querySelector('[data-jugador]') && typeof Perfiles !== 'undefined') Perfiles.pintarJugadores();
     if (nombre === 'posiciones') filtrarProductos(contenido, opciones.filtro || null);
     contenido.dispatchEvent(new CustomEvent('ventana-entrar', { detail: opciones }));
 }

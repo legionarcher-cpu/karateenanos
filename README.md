@@ -103,6 +103,8 @@ crece en proporción (letra base en `css/web.css`, arriba); debajo de 900 px el 
 
 - **Mini-login**: al entrar, "¿Quién va a entrenar hoy?". Cada sobrino toca su nombre y avatar; los nombres se
   agregan ahí mismo con "Agregar". El botón con el avatar (arriba a la derecha) sirve para cambiar de sobrino.
+  Dentro de cada juego (calentamiento, tarjetas y quiz) hay una barra "Está jugando …" con el botón **Cambiar**
+  (`data-jugador` en `paginas/*.html`); al cambiar, el juego abierto empieza de cero para el otro sobrino.
 - **Estrellas**: 1 por acierto en el quiz, 1 cada 5 aciertos en las tarjetas (hasta 4 al día) y 5 por completar el calentamiento (una vez al día). Máximo 40 por día y
   por sobrino. **Se reinician cada semana el día de clase**, que se elige en el **Panel del tío** (sábado por defecto).
 - **Cinturones y premios**: solo cuenta el cinturón más alto alcanzado en la semana. Al tocar un cinturón ya
@@ -117,7 +119,10 @@ crece en proporción (letra base en `css/web.css`, arriba); debajo de 900 px el 
 | Negro | 230 | 1 helado |
 
 - **Panel del tío** (dentro de la ventana de acceso): día de clase, estrellas y premio actual de cada sobrino, el
-  premio de la **semana pasada** con la casilla "entregado", y el botón para borrar un sobrino.
+  premio de la **semana pasada** con la casilla "entregado", y en cada fila ✏️ **modificar** (nombre y avatar; las
+  estrellas no cambian) y 🗑️ **borrar** (pide confirmación; borra también sus estrellas).
+  Con Supabase, modificar necesita la función `kara_editar_sobrino`: si la base se creó antes, ejecutar una vez
+  `sql/kara_editar_sobrino.sql` en el SQL Editor (en instalaciones nuevas ya viene en `sql/kara_supabase.sql`).
 - Se guarda en el navegador de cada equipo (`karate-enanos-datos`) o, si se configura, en Supabase (ver abajo).
 
 ## Enlaces directos

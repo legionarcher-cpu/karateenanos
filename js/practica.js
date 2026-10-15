@@ -331,6 +331,13 @@ Practica.tarjetas = function (caja) {
     elegirTema('cuerpo');
     pintarAciertos();
     caja.addEventListener('ventana-salir', () => clearTimeout(pasarSola));
+    // Al cambiar de sobrino: empieza de cero con sus estrellas de tarjetas de hoy
+    document.addEventListener('perfil-cambio', () => {
+        if (!caja.isConnected) return;
+        aciertos = 0;
+        sabidas.clear();
+        pintar();
+    });
     caja.addEventListener('ventana-entrar', (e) => {
         if (e.detail && e.detail.tema && VOCABULARIO[e.detail.tema]) elegirTema(e.detail.tema);
     });
@@ -515,10 +522,13 @@ Practica.calentamiento = function (caja) {
         if (c.checked) pitido(880, 0.06);
         actualizar();
     }));
-    lista.querySelector('[data-reiniciar]').addEventListener('click', () => {
+    const reiniciar = () => {
         casillas.forEach((c) => { c.checked = false; c.closest('.ejercicio').classList.remove('hecho'); });
         actualizar();
-    });
+    };
+    lista.querySelector('[data-reiniciar]').addEventListener('click', reiniciar);
+    // Otro sobrino: la lista empieza de cero
+    document.addEventListener('perfil-cambio', () => { if (caja.isConnected) reiniciar(); });
 
     // Pausar el video al cerrar o cambiar de ventana (API de YouTube por postMessage)
     caja.addEventListener('ventana-salir', () => {

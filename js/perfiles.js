@@ -111,6 +111,18 @@ const Perfiles = (() => {
         datos.activo = id;
         guardar();
         pintarTodo();
+        // Los juegos abiertos se actualizan para el sobrino nuevo (ej. estrellas de tarjetas de hoy)
+        document.dispatchEvent(new CustomEvent('perfil-cambio'));
+    }
+
+    function editar(id, nombre, avatar) {
+        const s = datos.sobrinos.find((x) => x.id === id);
+        if (!s) return;
+        s.nombre = nombre;
+        s.avatar = avatar;
+        guardar();
+        encolar('kara_editar_sobrino', { p_id: id, p_nombre: nombre, p_avatar: avatar });
+        pintarTodo();
     }
 
     function borrar(id) {
@@ -309,6 +321,7 @@ const Perfiles = (() => {
         document.getElementById('panelAvatar').textContent = s ? s.avatar : '👤';
         document.getElementById('panelNombre').textContent = s ? `Estrellas de ${s.nombre}` : '¿Quién está entrenando?';
         document.getElementById('estrellasTotal').textContent = total;
+        pintarJugadores();
 
         const reinicio = diasParaReinicio();
         const cuando = reinicio === 7 ? `el próximo ${DIAS[datos.diaClase]}` : `el ${DIAS[datos.diaClase]} (en ${reinicio} ${reinicio === 1 ? 'día' : 'días'})`;
@@ -334,6 +347,21 @@ const Perfiles = (() => {
             const entregado = semanaDe(s, inicioSemana(-1)).entregado;
             pasada.innerHTML = `<i class="bi bi-calendar-check"></i> Semana pasada: cinturón <strong>${CINTURONES[ip].nombre.toLowerCase()}</strong> → ${textoPremio(CINTURONES[ip].premio)} ${entregado ? '<span class="entregado">✓ entregado</span>' : '<span class="pendiente">por entregar</span>'}`;
         }
+    }
+
+    // Barra "quién está jugando" dentro de los juegos (data-jugador en paginas/*.html)
+    function pintarJugadores() {
+        const s = activo();
+        document.querySelectorAll('[data-jugador]').forEach((caja) => {
+            caja.innerHTML = s
+                ? `<span class="perfil-avatar">${s.avatar}</span>
+                   <span class="jugador-texto"><small>Está jugando</small><strong>${escaparTexto(s.nombre)}</strong></span>
+                   <span class="jugador-estrellas">${estrellasDe(s)} ⭐</span>
+                   <button type="button" class="boton boton-borde" data-acceso><i class="bi bi-arrow-left-right"></i> Cambiar</button>`
+                : `<span class="perfil-avatar">👤</span>
+                   <span class="jugador-texto"><small>¿Quién va a jugar hoy?</small><strong>Elige tu nombre para ganar estrellas</strong></span>
+                   <button type="button" class="boton boton-rojo" data-acceso><i class="bi bi-person-fill"></i> Elegir</button>`;
+        });
     }
 
     function pintarTodo() {
@@ -394,8 +422,12 @@ const Perfiles = (() => {
     const acceso = document.getElementById('acceso');
     const accesoCuerpo = document.getElementById('accesoCuerpo');
     let avatarElegido = AVATARES[0];
+    let panelAbierto = false;  // el Panel del tío sigue abierto al volver a pintar
+    let editando = null;       // { id, nombre, avatar } del sobrino que se está modificando
 
     function abrirAcceso() {
+        panelAbierto = false;
+        editando = null;
         pintarAcceso();
         acceso.hidden = false;
         const primero = acceso.querySelector('.perfil-tarjeta, input');
@@ -422,9 +454,26 @@ const Perfiles = (() => {
                 <td>${i < 0 ? '—' : textoPremio(CINTURONES[i].premio)}</td>
                 <td>${ip < 0 ? '—' : `${textoPremio(CINTURONES[ip].premio)}
                     <label class="entrega"><input type="checkbox" data-entregado="${s.id}" ${pasada.entregado ? 'checked' : ''}> entregado</label>`}</td>
-                <td><button type="button" class="enlace-boton peligro" data-borrar="${s.id}" aria-label="Borrar a ${escaparTexto(s.nombre)}"><i class="bi bi-trash"></i></button></td>
+                <td class="acciones-sobrino">
+                    <button type="button" class="enlace-boton" data-editar="${s.id}" aria-label="Modificar a ${escaparTexto(s.nombre)}" title="Modificar"><i class="bi bi-pencil-fill"></i></button>
+                    <button type="button" class="enlace-boton peligro" data-borrar="${s.id}" aria-label="Borrar a ${escaparTexto(s.nombre)}" title="Borrar"><i class="bi bi-trash"></i></button>
+                </td>
             </tr>`;
         }).join('');
+
+        // Formulario para modificar nombre y avatar
+        const enEdicion = editando && datos.sobrinos.find((s) => s.id === editando.id);
+        if (!enEdicion) editando = null;
+        const formEditar = enEdicion ? `
+            <form class="perfil-form editar-sobrino" data-form-editar="${enEdicion.id}">
+                <h3><i class="bi bi-pencil-fill"></i> Modificar a ${escaparTexto(enEdicion.nombre)}</h3>
+                <input type="text" maxlength="20" value="${escaparTexto(editando.nombre)}" data-nombre-editar aria-label="Nombre" required>
+                <div class="avatares">${AVATARES.map((a) => `<button type="button" data-avatar-editar="${a}" class="${a === editando.avatar ? 'activo' : ''}" aria-label="Avatar ${a}">${a}</button>`).join('')}</div>
+                <div class="editar-botones">
+                    <button type="submit" class="boton boton-rojo"><i class="bi bi-check-lg"></i> Guardar cambios</button>
+                    <button type="button" class="boton boton-borde" data-cancelar-editar>Cancelar</button>
+                </div>
+            </form>` : '';
 
         accesoCuerpo.innerHTML = `
             <h2>¿Quién va a entrenar hoy?</h2>
@@ -441,7 +490,7 @@ const Perfiles = (() => {
                 <button type="submit" class="boton boton-rojo"><i class="bi bi-check-lg"></i> Guardar y entrar</button>
             </form>
 
-            <details class="panel-tio">
+            <details class="panel-tio" ${panelAbierto ? 'open' : ''}>
                 <summary><i class="bi bi-gear-fill"></i> Panel del tío</summary>
                 <label class="dia-clase">Día de clase (las estrellas se reinician ese día):
                     <select data-dia>${DIAS.map((d, n) => `<option value="${n}" ${n === datos.diaClase ? 'selected' : ''}>${d}</option>`).join('')}</select>
@@ -449,6 +498,7 @@ const Perfiles = (() => {
                 ${datos.sobrinos.length ? `<div class="tabla-envoltura"><table class="tabla">
                     <thead><tr><th>Sobrino</th><th>Esta semana</th><th>Premio actual</th><th>Semana pasada</th><th></th></tr></thead>
                     <tbody>${filas}</tbody></table></div>` : '<p>Todavía no hay sobrinos.</p>'}
+                ${formEditar}
                 ${htmlNube()}
             </details>`;
     }
@@ -481,21 +531,58 @@ const Perfiles = (() => {
             accesoCuerpo.querySelectorAll('[data-avatar]').forEach((x) => x.classList.toggle('activo', x === b));
             return;
         }
+        if (b.dataset.editar) {
+            const s = datos.sobrinos.find((x) => x.id === b.dataset.editar);
+            if (!s) return;
+            editando = { id: s.id, nombre: s.nombre, avatar: s.avatar };
+            pintarAcceso();
+            const campo = accesoCuerpo.querySelector('[data-nombre-editar]');
+            campo.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            campo.focus();
+            campo.select();
+            return;
+        }
+        if (b.dataset.avatarEditar) {
+            editando.avatar = b.dataset.avatarEditar;
+            accesoCuerpo.querySelectorAll('[data-avatar-editar]').forEach((x) => x.classList.toggle('activo', x === b));
+            return;
+        }
+        if (b.hasAttribute('data-cancelar-editar')) { editando = null; pintarAcceso(); return; }
         if (b.dataset.borrar) {
             const s = datos.sobrinos.find((x) => x.id === b.dataset.borrar);
-            if (s && confirm(`¿Borrar a ${s.nombre} y todas sus estrellas?`)) borrar(s.id);
+            if (s && confirm(`¿Borrar a ${s.nombre} y todas sus estrellas?\nEsto no se puede deshacer.`)) {
+                if (editando && editando.id === s.id) editando = null;
+                borrar(s.id);
+            }
             return;
         }
         if (b.hasAttribute('data-sincronizar')) { estadoNube = 'Actualizando…'; pintarEstadoNube(); estadoNube = ''; sincronizar(); }
     });
     accesoCuerpo.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (e.target.matches('[data-form-editar]')) {
+            const nombre = e.target.querySelector('[data-nombre-editar]').value.trim();
+            if (!nombre) return;
+            const id = editando.id;
+            const avatar = editando.avatar;
+            editando = null;
+            editar(id, nombre, avatar);
+            pintarAcceso();
+            return;
+        }
         const nombre = accesoCuerpo.querySelector('[data-nombre]').value.trim();
         if (!nombre) return;
         agregar(nombre, avatarElegido);
         pintarTodo();
         cerrarAcceso();
     });
+    accesoCuerpo.addEventListener('input', (e) => {
+        if (e.target.matches('[data-nombre-editar]') && editando) editando.nombre = e.target.value;
+    });
+    // 'toggle' no burbujea: se escucha en captura
+    accesoCuerpo.addEventListener('toggle', (e) => {
+        if (e.target.matches('.panel-tio')) panelAbierto = e.target.open;
+    }, true);
     accesoCuerpo.addEventListener('change', (e) => {
         if (e.target.matches('[data-dia]')) {
             datos.diaClase = Number(e.target.value);
@@ -538,5 +625,5 @@ const Perfiles = (() => {
     if (!activo()) abrirAcceso();
     sincronizar().then(() => { if (!activo() && acceso.hidden) abrirAcceso(); });
 
-    return { sumarEstrellas, llegoAlLimite, tieneMarcaHoy, marcaHoy, activo, abrirAcceso, mostrarPremio };
+    return { sumarEstrellas, llegoAlLimite, tieneMarcaHoy, marcaHoy, activo, abrirAcceso, mostrarPremio, pintarJugadores };
 })();
