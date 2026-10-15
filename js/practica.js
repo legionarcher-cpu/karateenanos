@@ -5,7 +5,8 @@
 
    1. Ayudantes (mezclar, voz, pitido, confeti, temas). Las estrellas de cada sobrino,
       los cinturones y los premios están en js/perfiles.js (Perfiles.sumarEstrellas).
-   2. Tarjetas de memoria: voltear, "me la sé", mezclar, al revés y escuchar.
+   2. Tarjetas de memoria: elegir la opción correcta ("¡Intenta otra vez!" si no),
+      1 estrella cada 5 aciertos a la primera; mezclar, al revés y escuchar.
    3. Quiz del dojo: hasta 10 preguntas de opción múltiple por tema.
    4. Calentamiento: lista de ejercicios para marcar y pausa del video al salir.
 
@@ -104,16 +105,87 @@ window.Practica = {};
 /* ==================================================
    2. TARJETAS DE MEMORIA
    ================================================== */
+const ACIERTOS_POR_ESTRELLA = 5;
+const ESTRELLAS_TARJETAS_DIA = 4;   // máximo de estrellas por día con este juego (por sobrino)
+const CLAVE_VISTAS = 'karate-enanos-tarjetas-vistas';
+
+// Tarjetas que el sobrino volteó sin responder hoy (en este navegador): ya no dan aciertos ese día
+function fechaHoy() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function vistasDeHoy() {
+    const s = Perfiles.activo();
+    const quien = s ? s.id : 'nadie';
+    let todo = {};
+    try { todo = JSON.parse(localStorage.getItem(CLAVE_VISTAS)) || {}; } catch { todo = {}; }
+    if (!todo[quien] || todo[quien].fecha !== fechaHoy()) todo[quien] = { fecha: fechaHoy(), claves: [] };
+    return {
+        tiene: (clave) => todo[quien].claves.includes(clave),
+        agregar(clave) {
+            if (this.tiene(clave)) return;
+            todo[quien].claves.push(clave);
+            // Solo se guarda lo de hoy
+            Object.keys(todo).forEach((k) => { if (todo[k].fecha !== fechaHoy()) delete todo[k]; });
+            try { localStorage.setItem(CLAVE_VISTAS, JSON.stringify(todo)); } catch { /* sin almacenamiento */ }
+        },
+    };
+}
+
+// Estrellas de tarjetas ganadas hoy: se guardan como marcas tarjetas-1 … tarjetas-4 (también en la nube)
+const estrellasTarjetasHoy = () =>
+    Array.from({ length: ESTRELLAS_TARJETAS_DIA }, (_, i) => Perfiles.tieneMarcaHoy(`tarjetas-${i + 1}`)).filter(Boolean).length;
+
 Practica.tarjetas = function (caja) {
     const $ = (s) => caja.querySelector(s);
     const tarjeta = $('[data-tarjeta]');
+    const mensaje = $('[data-mensaje]');
     let lista = [];
     let indice = 0;
     let invertido = false;
+    let respondida = false;  // ya eligió la opción correcta en esta tarjeta
+    let fallo = false;       // se equivocó al menos una vez en esta tarjeta
+    let aciertos = 0;        // aciertos a la primera (cada 5 = 1 estrella)
+    let pasarSola = null;
     const sabidas = new Set();
+    const claveDe = (p) => p.jp + p.es;
+
+    function avisar(texto, tipo = '') {
+        mensaje.textContent = texto;
+        mensaje.className = `quiz-mensaje ${tipo}`;
+    }
+
+    function pintarAciertos() {
+        const hoy = estrellasTarjetasHoy();
+        $('[data-aciertos]').textContent = aciertos;
+        $('[data-ganadas]').textContent = `${hoy} / ${ESTRELLAS_TARJETAS_DIA}`;
+        const llevo = aciertos % ACIERTOS_POR_ESTRELLA;
+        // Con las estrellas del día completas ya no se muestran los puntitos
+        $('[data-hacia-estrella]').hidden = hoy >= ESTRELLAS_TARJETAS_DIA;
+        $('[data-hacia-estrella]').innerHTML = Array.from({ length: ACIERTOS_POR_ESTRELLA }, (_, i) =>
+            `<i class="bi ${i < llevo ? 'bi-circle-fill' : 'bi-circle'}"></i>`).join('');
+    }
+
+    function pintarOpciones(p) {
+        const valor = (x) => (invertido ? x.jp : x.es);
+        const letras = ['A', 'B', 'C', 'D'];
+        $('[data-opciones]').replaceChildren(...opcionesPara(p, lista, valor).map((texto, i) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'quiz-opcion';
+            b.innerHTML = `<span class="letra">${letras[i]}</span>`;
+            b.append(texto);
+            b.addEventListener('click', () => responder(b, texto === valor(p)));
+            return b;
+        }));
+    }
 
     function pintar() {
+        clearTimeout(pasarSola);
         const p = lista[indice];
+        respondida = false;
+        fallo = false;
+        avisar(vistasDeHoy().tiene(claveDe(p)) ? '👀 Esta ya la viste hoy: practícala, pero no suma aciertos.' : '');
         tarjeta.classList.remove('volteada');
         tarjeta.classList.remove('entra');
         void tarjeta.offsetWidth;
@@ -126,47 +198,118 @@ Practica.tarjetas = function (caja) {
             $('[data-japones-atras]').textContent = invertido ? p.kanji : `${p.jp} · ${p.kanji}`;
             caja.querySelector('.tarjeta-frente small').textContent = invertido ? '¿Cómo se dice en japonés?' : '¿Qué significa?';
         }, 120);
+        pintarOpciones(p);
+        pintarAciertos();
         $('[data-contador]').textContent = `${indice + 1} / ${lista.length}`;
         $('[data-sabidas]').textContent = `${sabidas.size} / ${lista.length}`;
         $('[data-barra]').style.width = `${(sabidas.size / lista.length) * 100}%`;
-        tarjeta.classList.toggle('sabida', sabidas.has(p.jp + p.es));
+        tarjeta.classList.toggle('sabida', sabidas.has(claveDe(p)));
+    }
+
+    // Da la estrella de cada 5 aciertos, si todavía quedan de las 4 del día
+    function premiar() {
+        if (!Perfiles.activo()) {
+            Perfiles.sumarEstrellas(1, 'tarjetas');  // abre "¿Quién va a entrenar hoy?"
+            return '¡5 aciertos! (elige tu nombre para guardar estrellas)';
+        }
+        const hoy = estrellasTarjetasHoy();
+        if (hoy >= ESTRELLAS_TARJETAS_DIA) return `¡5 aciertos! Ya ganaste tus ${ESTRELLAS_TARJETAS_DIA} estrellas de tarjetas de hoy. ¡Sigue practicando!`;
+        const dio = Perfiles.sumarEstrellas(1, 'tarjetas');
+        if (!dio) return '¡5 aciertos! (ya llegaste al límite de estrellas de hoy)';
+        Perfiles.marcaHoy(`tarjetas-${hoy + 1}`);
+        return hoy + 1 === ESTRELLAS_TARJETAS_DIA
+            ? `¡5 aciertos! Ganaste 1 estrella ⭐ (ya tienes las ${ESTRELLAS_TARJETAS_DIA} de hoy)`
+            : '¡5 aciertos! Ganaste 1 estrella ⭐';
+    }
+
+    function responder(boton, bien) {
+        if (respondida) return;
+        if (!bien) {
+            fallo = true;
+            boton.disabled = true;
+            boton.classList.add('incorrecta');
+            avisar(mezclar(['¡Intenta otra vez! 💪', '¡Casi! Intenta otra vez', 'Esa no es… ¡intenta otra vez!'])[0], 'mal');
+            pitido(220, 0.25);
+            return;
+        }
+        respondida = true;
+        caja.querySelectorAll('.tarjetas-opciones .quiz-opcion').forEach((b) => { b.disabled = true; });
+        boton.classList.add('correcta');
+        tarjeta.classList.add('volteada');
+        const p = lista[indice];
+        const vista = vistasDeHoy().tiene(claveDe(p));
+        if (fallo || vista || sabidas.has(claveDe(p))) {
+            // Acertó después de equivocarse, ya la había volteado hoy o ya la sabía en esta ronda: no cuenta
+            avisar(fallo ? '¡Ahora sí! Esta vuelve a salir para que la practiques.'
+                : vista ? '¡Correcto! (ya la habías visto hoy, no suma)' : '¡Correcto! Esa ya la sabías.', 'bien');
+            pitido(880, 0.12);
+        } else {
+            sabidas.add(claveDe(p));
+            aciertos++;
+            if (aciertos % ACIERTOS_POR_ESTRELLA === 0) {
+                avisar(premiar(), 'bien');
+                pitido(660, 0.15, 3);
+            } else {
+                avisar(mezclar(['¡Correcto! ✔', '¡Muy bien!', '¡Oss!', '¡Eso es!'])[0], 'bien');
+                pitido(880, 0.12, 2);
+            }
+            pintarAciertos();
+            $('[data-sabidas]').textContent = `${sabidas.size} / ${lista.length}`;
+            $('[data-barra]').style.width = `${(sabidas.size / lista.length) * 100}%`;
+            tarjeta.classList.add('sabida');
+        }
+        if (sabidas.size === lista.length) {
+            avisar('¡Te sabes todas las tarjetas de este tema! 🏆', 'bien');
+            confeti(caja.querySelector('.tarjetas-zona'));
+            pitido(660, 0.15, 3);
+            return;
+        }
+        // Si falló, la tarjeta se va al final del mazo para verla otra vez
+        pasarSola = setTimeout(() => (fallo ? alFinal() : mover(1)), 1800);
     }
 
     function cargar(tema) {
-        lista = palabrasDe(tema);
+        lista = mezclar(palabrasDe(tema));
         indice = 0;
         sabidas.clear();
         pintar();
     }
 
     const mover = (paso) => { indice = (indice + paso + lista.length) % lista.length; pintar(); };
-
-    tarjeta.addEventListener('click', () => tarjeta.classList.toggle('volteada'));
-    $('[data-anterior]').addEventListener('click', () => mover(-1));
-    $('[data-siguiente]').addEventListener('click', () => mover(1));
-    $('[data-sabida]').addEventListener('click', () => {
-        const p = lista[indice];
-        sabidas.add(p.jp + p.es);
-        if (sabidas.size === lista.length) {
-            confeti(caja.querySelector('.tarjetas-zona'));
-            pitido(660, 0.15, 3);
-        }
-        mover(1);
-    });
-    $('[data-repasar]').addEventListener('click', () => {
-        // La tarjeta se va al final del mazo para verla otra vez
+    function alFinal() {
         const [p] = lista.splice(indice, 1);
         lista.push(p);
         if (indice >= lista.length) indice = 0;
         pintar();
-    });
+    }
+
+    // Voltear para ver la respuesta: se puede, pero esa tarjeta ya no da aciertos en todo el día
+    function voltear() {
+        const p = lista[indice];
+        if (!respondida && !tarjeta.classList.contains('volteada')) {
+            const vistas = vistasDeHoy();
+            if (!vistas.tiene(claveDe(p)) && !sabidas.has(claveDe(p))) {
+                vistas.agregar(claveDe(p));
+                avisar('👀 Viste la respuesta: esta tarjeta hoy ya no suma aciertos.');
+            }
+        }
+        tarjeta.classList.toggle('volteada');
+    }
+    tarjeta.addEventListener('click', voltear);
+    $('[data-voltear]').addEventListener('click', voltear);
+    $('[data-anterior]').addEventListener('click', () => mover(-1));
+    $('[data-siguiente]').addEventListener('click', () => mover(1));
     $('[data-mezclar]').addEventListener('click', () => { lista = mezclar(lista); indice = 0; pintar(); });
     $('[data-invertir]').addEventListener('click', (e) => {
         invertido = !invertido;
         e.currentTarget.classList.toggle('activo', invertido);
         pintar();
     });
-    $('[data-escuchar]').addEventListener('click', () => hablar(lista[indice].jp.replace(/\(.*?\)/g, '')));
+    // Al revés y sin responder se lee el español, para no decir la respuesta
+    $('[data-escuchar]').addEventListener('click', () => {
+        const p = lista[indice];
+        hablar(invertido && !respondida ? p.es : p.jp.replace(/\(.*?\)/g, ''));
+    });
 
     // Teclado: flechas para pasar (la barra espaciadora voltea porque la tarjeta es un botón)
     document.addEventListener('keydown', (e) => {
@@ -186,6 +329,8 @@ Practica.tarjetas = function (caja) {
 
     const elegirTema = pintarTemas($('[data-temas]'), cargar);
     elegirTema('cuerpo');
+    pintarAciertos();
+    caja.addEventListener('ventana-salir', () => clearTimeout(pasarSola));
     caja.addEventListener('ventana-entrar', (e) => {
         if (e.detail && e.detail.tema && VOCABULARIO[e.detail.tema]) elegirTema(e.detail.tema);
     });

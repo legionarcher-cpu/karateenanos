@@ -279,6 +279,9 @@ const Perfiles = (() => {
                 });
                 if (sem.entregado) encolar('kara_entregar', { p_sobrino: id, p_semana: semana, p_entregado: true });
             });
+            // Marcas del día (calentamiento hecho, estrellas de tarjetas…)
+            Object.entries(s.marcas || {}).forEach(([marca, fecha]) =>
+                encolar('kara_marcar', { p_sobrino: id, p_marca: marca, p_fecha: fecha }));
         });
     }
 

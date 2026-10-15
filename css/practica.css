@@ -165,7 +165,25 @@
     color: #7CFFC4;
 }
 
-.tarjetas-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1.75rem; }
+.tarjeta { aspect-ratio: 2 / 1; min-height: 12rem; }
+
+/* Opciones para responder (usan los estilos .quiz-opcion del quiz) */
+.tarjetas-opciones { margin-top: 1.75rem; }
+.tarjetas-zona .quiz-mensaje { margin: 0.75rem 0 0.25rem; }
+.tarjetas-aciertos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    font-weight: 800;
+    color: var(--gris);
+}
+.tarjetas-aciertos .bi-bullseye { color: var(--rojo); }
+.tarjetas-aciertos .bi-star-fill { color: var(--amarillo); }
+.tarjetas-hacia-estrella { display: inline-flex; gap: 0.3rem; color: var(--amarillo); font-size: 0.9rem; }
+
+.tarjetas-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1.25rem; }
 .tarjetas-extra { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem; margin-top: 1rem; }
 
 /* ==================================================

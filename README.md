@@ -89,15 +89,21 @@ crece en proporción (letra base en `css/web.css`, arriba); debajo de 900 px el 
 - **Calentamiento**: video "KARATE 10 BEST STRETCHES" de YouTube (se cambia en `paginas/calentamiento.html`)
   y una lista de ejercicios para marcar; al completarla, 5 estrellas (una vez al día por sobrino). El video se pausa al cerrar
   la ventana. Necesita internet y Live Server (con doble clic YouTube no deja reproducirlo).
-- **Tarjetas de memoria**: voltear, "¡Me la sé!", "Otra vez" (manda la tarjeta al final), mezclar, al revés
-  (español → japonés) y escuchar. Flechas del teclado o deslizar el dedo.
+- **Tarjetas de memoria**: 4 opciones por tarjeta; si se equivoca sale "¡Intenta otra vez!" y puede volver a
+  elegir. Al acertar la tarjeta se voltea y pasa sola. Cada 5 aciertos **a la primera** = 1 estrella
+  (`ACIERTOS_POR_ESTRELLA` en `js/practica.js`), **máximo 4 estrellas al día** con este juego
+  (`ESTRELLAS_TARJETAS_DIA`; se guardan como marcas `tarjetas-1`…`tarjetas-4`, también en la nube). Se puede seguir
+  jugando sin límite. Si acierta después de fallar no cuenta y la tarjeta vuelve a salir al final. Cada tarjeta
+  cuenta una vez por ronda. **Voltear** (botón o tocar la tarjeta) muestra la respuesta, pero esa tarjeta ya no suma
+  aciertos en todo el día (se recuerda en ese navegador). También: mezclar, al revés (español → japonés) y escuchar.
+  Flechas del teclado o deslizar el dedo.
 - **Quiz del dojo**: hasta 10 preguntas por tema; cada acierto suma 1 estrella.
 
 ## Sobrinos, estrellas y premios
 
 - **Mini-login**: al entrar, "¿Quién va a entrenar hoy?". Cada sobrino toca su nombre y avatar; los nombres se
   agregan ahí mismo con "Agregar". El botón con el avatar (arriba a la derecha) sirve para cambiar de sobrino.
-- **Estrellas**: 1 por acierto en el quiz y 5 por completar el calentamiento (una vez al día). Máximo 40 por día y
+- **Estrellas**: 1 por acierto en el quiz, 1 cada 5 aciertos en las tarjetas (hasta 4 al día) y 5 por completar el calentamiento (una vez al día). Máximo 40 por día y
   por sobrino. **Se reinician cada semana el día de clase**, que se elige en el **Panel del tío** (sábado por defecto).
 - **Cinturones y premios**: solo cuenta el cinturón más alto alcanzado en la semana. Al tocar un cinturón ya
   alcanzado se ve su premio; los que faltan aparecen como premio sorpresa con las estrellas que piden.

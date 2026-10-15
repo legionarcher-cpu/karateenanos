@@ -9,7 +9,7 @@
         <div>
             <span class="sol-etiqueta">Repaso</span>
             <h1>Tarjetas de memoria</h1>
-            <p>Lee la palabra en japonés, piensa qué significa y toca la tarjeta para darle la vuelta.</p>
+            <p>Lee la palabra en japonés y elige qué significa. Cada 5 aciertos a la primera ganas 1 estrella (hasta 4 al día). Si volteas una tarjeta para ver la respuesta, esa hoy ya no suma.</p>
         </div>
     </div>
 
@@ -22,12 +22,12 @@
         </div>
         <div class="barra"><span data-barra></span></div>
 
-        <button type="button" class="tarjeta" data-tarjeta aria-label="Dar la vuelta a la tarjeta">
+        <button type="button" class="tarjeta" data-tarjeta aria-label="Voltear la tarjeta">
             <span class="tarjeta-cara tarjeta-frente">
                 <small>¿Qué significa?</small>
                 <span class="tarjeta-kanji" lang="ja" data-kanji></span>
                 <strong data-japones></strong>
-                <em><i class="bi bi-arrow-repeat"></i> Toca para voltear</em>
+                <em><i class="bi bi-hand-index-thumb"></i> Elige la respuesta correcta</em>
             </span>
             <span class="tarjeta-cara tarjeta-atras">
                 <small>Significa</small>
@@ -36,10 +36,19 @@
             </span>
         </button>
 
+        <!-- Opciones: si se equivoca, "¡Intenta otra vez!"; cada 5 aciertos a la primera = 1 estrella (máx. 4 al día).
+             Voltear la tarjeta antes de responder muestra la respuesta, pero esa tarjeta ya no suma ese día. -->
+        <div class="quiz-opciones tarjetas-opciones" data-opciones></div>
+        <p class="quiz-mensaje" data-mensaje aria-live="polite"></p>
+        <div class="tarjetas-aciertos">
+            <span><i class="bi bi-bullseye"></i> Aciertos: <strong data-aciertos>0</strong></span>
+            <span class="tarjetas-hacia-estrella" data-hacia-estrella aria-label="Aciertos para la próxima estrella"></span>
+            <span><i class="bi bi-star-fill"></i> Estrellas de hoy: <strong data-ganadas>0 / 4</strong></span>
+        </div>
+
         <div class="tarjetas-botones">
             <button type="button" class="boton boton-borde" data-anterior aria-label="Anterior"><i class="bi bi-chevron-left"></i></button>
-            <button type="button" class="boton boton-borde" data-repasar><i class="bi bi-arrow-counterclockwise"></i> Otra vez</button>
-            <button type="button" class="boton boton-verde" data-sabida><i class="bi bi-check-lg"></i> ¡Me la sé!</button>
+            <button type="button" class="boton boton-borde" data-voltear><i class="bi bi-arrow-repeat"></i> Voltear</button>
             <button type="button" class="boton boton-borde" data-siguiente aria-label="Siguiente"><i class="bi bi-chevron-right"></i></button>
         </div>
         <div class="tarjetas-extra">
