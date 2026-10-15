@@ -1,0 +1,99 @@
+<!-- ==================================================
+     POSICIONES · DACHI (ventana interna de index.html)
+     Se abre con data-ventana="posiciones" (js/web.js).
+     Las tarjetas (#rejillaPosiciones) y la tabla resumen (#tablaResumen) se arman
+     con POSICIONES de js/datos.js; cada tarjeta se abre en grande en el visor.
+     ================================================== -->
+<div class="pagina-interna">
+    <div class="sol-banner color-amarillo" data-kanji="立">
+        <span class="sol-banner-icono"><i class="bi bi-person-standing"></i></span>
+        <div>
+            <span class="sol-etiqueta">Dachi · <span lang="ja">立ち</span></span>
+            <h1>Las posiciones: la base de todo</h1>
+            <p>Toca una tarjeta para ver cómo se hace, para qué sirve y los errores que hay que evitar.</p>
+        </div>
+    </div>
+
+    <div class="filtros">
+        <button type="button" data-segmento="todos" class="activo">Todas</button>
+        <button type="button" data-segmento="naturales">Naturales</button>
+        <button type="button" data-segmento="fundamentales">Fundamentales</button>
+        <button type="button" data-segmento="especiales">Especiales</button>
+    </div>
+
+    <div class="productos" id="rejillaPosiciones"></div>
+
+    <div class="sol-destacado">
+        <i class="bi bi-star-fill"></i>
+        <div>
+            <strong>Las 3 que aprendemos primero</strong>
+            <p>Zenkutsu, Kokutsu y Kiba son las tres posiciones base del Shotokan: se aprenden desde el cinturón blanco y aparecen en todos los Heian.</p>
+        </div>
+    </div>
+
+    <h2 class="subtitulo-interno"><i class="bi bi-check2-square"></i> Reglas de oro de toda posición</h2>
+    <details class="desplegable">
+        <summary><span class="numero">1</span> Columna recta</summary>
+        <div class="desplegable-cuerpo"><p>La cabeza "cuelga" de un hilo y el mentón va un poco recogido. No te inclines ni adelante ni atrás.</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">2</span> Hombros bajos y relajados</summary>
+        <div class="desplegable-cuerpo"><p>La fuerza va abajo (piernas y abdomen), no en los hombros.</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">3</span> Pelvis neutra</summary>
+        <div class="desplegable-cuerpo"><p>El coxis apunta al suelo: ni glúteos hacia atrás ni cadera empujada hacia adelante.</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">4</span> El centro está en el tanden</summary>
+        <div class="desplegable-cuerpo"><p>El abdomen bajo (unos 3 dedos bajo el ombligo) está firme: de ahí sale el movimiento.</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">5</span> Rodilla alineada con la punta del pie</summary>
+        <div class="desplegable-cuerpo"><p>La rodilla doblada mira hacia donde miran los dedos. Nunca se cae hacia adentro (excepto en Sanchin y Hangetsu, donde es a propósito y controlado).</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">6</span> Los pies "agarran" el suelo</summary>
+        <div class="desplegable-cuerpo"><p>Toda la planta apoyada, con el peso repartido entre talón, borde externo y almohadilla (menos en Neko-ashi y Kōsa).</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">7</span> Misma altura al moverte</summary>
+        <div class="desplegable-cuerpo"><p>La cabeza no sube ni baja al dar un paso: la cadera viaja en línea recta, como un tren.</p></div>
+    </details>
+    <details class="desplegable">
+        <summary><span class="numero">8</span> Tensión dirigida (shime, <span lang="ja">締め</span>)</summary>
+        <div class="desplegable-cuerpo"><p>Cada posición empuja en una dirección: hacia afuera (Kiba, Kokutsu, Fudō), hacia adentro (Sanchin, Hangetsu) o adelante y atrás (Zenkutsu).</p></div>
+    </details>
+
+    <h2 class="subtitulo-interno"><i class="bi bi-arrow-right-circle"></i> El paso básico del Shotokan</h2>
+    <div class="sol-funciones">
+        <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-moon"></i></span><h3>Media luna</h3><p>El pie que se mueve pasa cerca del tobillo del pie de apoyo, dibujando una pequeña media luna, y sale hacia adelante.</p></article>
+        <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-shield-check"></i></span><h3>Cadera protegida</h3><p>Así la cadera se mantiene centrada y protegida durante todo el paso.</p></article>
+        <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-arrows-collapse"></i></span><h3>Sin subir</h3><p>La rodilla de apoyo no se estira: mantienes la misma altura de principio a fin.</p></article>
+    </div>
+
+    <h2 class="subtitulo-interno"><i class="bi bi-table"></i> Tabla resumen</h2>
+    <div class="tabla-envoltura">
+        <table class="tabla">
+            <thead><tr><th>Dachi</th><th>Peso</th><th>Pies</th><th>Rodillas</th><th>Uso</th><th>Kata</th></tr></thead>
+            <tbody id="tablaResumen"></tbody>
+        </table>
+    </div>
+
+    <div class="sol-destacado">
+        <i class="bi bi-person-bounding-box"></i>
+        <div>
+            <strong>Consejo de entrenamiento</strong>
+            <p>Practica frente a un espejo: de perfil (rodilla sobre los dedos, columna vertical) y de frente (ancho de los pies, rodillas alineadas). Mantener cada posición 30–60 segundos fortalece las piernas y la memoria del cuerpo.</p>
+        </div>
+    </div>
+
+    <div class="sol-cta">
+        <h2>¿Ya te las sabes?</h2>
+        <p>Repasa los nombres con las tarjetas o ponte a prueba en el quiz.</p>
+        <div class="sol-cta-botones">
+            <button type="button" class="boton boton-azul" data-ventana="tarjetas" data-tema="posiciones"><i class="bi bi-layers-fill"></i> Tarjetas de posiciones</button>
+            <button type="button" class="boton boton-amarillo" data-ventana="quiz" data-tema="posiciones"><i class="bi bi-patch-question-fill"></i> Quiz de posiciones</button>
+        </div>
+    </div>
+</div>

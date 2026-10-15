@@ -1,0 +1,256 @@
+/* ==================================================
+   KARATE PARA LOS ENANOS · PERFILES Y PREMIOS (js/perfiles.js)
+   Botón de perfil en la cabecera, ventana "¿Quién va a entrenar?", panel de
+   estrellas con cinturones tocables y diálogo del premio.
+   ================================================== */
+
+/* ---------- Botón de perfil (cabecera) ---------- */
+.sitio-logo { margin-right: auto; }
+.perfil-chip {
+    order: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    max-width: 11rem;
+    padding: 0.3rem 0.9rem 0.3rem 0.3rem;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--blanco);
+    font: 800 0.9rem var(--cuerpo);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.perfil-chip:hover { background: rgba(255, 255, 255, 0.18); border-color: var(--amarillo); }
+.perfil-chip #chipNombre { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.perfil-chip-avatar {
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--amarillo);
+    font-size: 1.15rem;
+}
+.sitio-menu-boton { order: 4; }
+
+/* ---------- Avatar redondo ---------- */
+.perfil-avatar {
+    width: 3.4rem;
+    height: 3.4rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--amarillo);
+    font-size: 1.9rem;
+    line-height: 1;
+}
+
+/* ==================================================
+   PANEL DE ESTRELLAS (portada)
+   ================================================== */
+.estrellas-titulo { flex-wrap: wrap; }
+.estrellas-titulo > div { flex: 1; min-width: 12rem; }
+.estrellas-titulo .boton { padding: 0.55rem 1.1rem; }
+
+.cinturones { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+.cinturon {
+    padding: 0.35rem 0.2rem;
+    border: 2px solid transparent;
+    border-radius: var(--radio);
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+.cinturon:hover { opacity: 0.75; transform: translateY(-3px); background: rgba(255, 255, 255, 0.06); }
+.cinturon.ganado:hover { opacity: 1; }
+.cinturon.actual { border-color: var(--amarillo); background: rgba(255, 183, 3, 0.12); }
+.cinturon:focus-visible { outline: 3px solid var(--amarillo); outline-offset: 2px; }
+.cinturon-meta { font-size: 0.72rem; font-weight: 800; color: rgba(255, 255, 255, 0.75); white-space: nowrap; }
+.cinturon.ganado .cinturon-meta { color: var(--amarillo); font-size: 0.95rem; }
+.cinturon.actual .cinturon-meta i { animation: latir 1.2s ease-in-out infinite; display: inline-block; }
+@keyframes latir { 50% { transform: scale(1.25); } }
+
+.semana-pasada {
+    margin: 1.25rem 0 0;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radio);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+}
+.semana-pasada i { color: var(--amarillo); margin-right: 0.25rem; }
+.semana-pasada strong { color: var(--blanco); }
+.semana-pasada .pendiente,
+.semana-pasada .entregado { margin-left: 0.35rem; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; }
+.semana-pasada .pendiente { background: var(--rojo); color: var(--blanco); }
+.semana-pasada .entregado { background: var(--verde); color: var(--blanco); }
+.estrellas-ayuda { margin: 0.9rem 0 0; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); }
+
+/* ==================================================
+   ACCESO Y DIÁLOGO DEL PREMIO
+   ================================================== */
+.acceso,
+.dialogo {
+    position: fixed;
+    inset: 0;
+    z-index: 160;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+.dialogo { z-index: 170; }
+.acceso-fondo { position: absolute; inset: 0; background: rgba(15, 13, 45, 0.82); backdrop-filter: blur(6px); }
+.acceso-tarjeta,
+.dialogo-tarjeta {
+    position: relative;
+    overflow: hidden auto;
+    width: min(100%, 44rem);
+    max-height: 100%;
+    padding: 2rem clamp(1.25rem, 4vw, 2.25rem);
+    border-radius: var(--radio-grande);
+    background: var(--fondo);
+    box-shadow: var(--sombra-fuerte);
+    border-top: 6px solid var(--rojo);
+    animation: aparecer 0.35s ease both;
+}
+.dialogo-tarjeta { width: min(100%, 28rem); text-align: center; border-top-color: var(--amarillo); }
+.dialogo-cerrar {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 50%;
+    background: var(--borde);
+    color: var(--tinta);
+    cursor: pointer;
+}
+.dialogo-cerrar:hover { background: var(--rojo); color: var(--blanco); }
+.acceso-tarjeta h2 { margin-right: 2.5rem; font-size: 1.6rem; }
+
+/* Tarjetas de sobrinos */
+.perfiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: 0.9rem; margin-bottom: 1.5rem; }
+.perfil-tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1.1rem 0.6rem;
+    border: 3px solid var(--borde);
+    border-radius: var(--radio-grande);
+    background: var(--blanco);
+    font: inherit;
+    color: var(--tinta);
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.perfil-tarjeta:hover { transform: translateY(-4px); border-color: var(--amarillo); }
+.perfil-tarjeta.activo { border-color: var(--rojo); }
+.perfil-tarjeta .perfil-avatar { width: 4.2rem; height: 4.2rem; font-size: 2.4rem; }
+.perfil-tarjeta strong { font: 700 1.1rem var(--titulos); overflow-wrap: anywhere; }
+.perfil-tarjeta small { color: var(--gris); font-weight: 700; }
+.perfil-tarjeta.nuevo { border-style: dashed; }
+.perfil-tarjeta.nuevo .perfil-avatar { background: var(--borde); color: var(--tinta); font-size: 1.6rem; }
+
+/* Formulario de sobrino nuevo */
+.perfil-form { display: grid; gap: 0.8rem; margin-bottom: 1.5rem; padding: 1.25rem; border-radius: var(--radio-grande); background: var(--blanco); box-shadow: var(--sombra); }
+.perfil-form h3 { margin: 0; font-size: 1.15rem; }
+.perfil-form input[type="text"] {
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--borde);
+    border-radius: var(--radio);
+    font: 700 1.1rem var(--cuerpo);
+    color: var(--texto);
+}
+.perfil-form input[type="text"]:focus { outline: none; border-color: var(--amarillo); }
+.perfil-form .boton { justify-self: start; }
+.avatares { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.avatares button {
+    width: 2.9rem;
+    height: 2.9rem;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background: var(--amarillo-claro);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.avatares button:hover { transform: scale(1.1); }
+.avatares button.activo { border-color: var(--rojo); background: var(--amarillo); }
+
+/* Panel del tío */
+.panel-tio { border-top: 2px dashed var(--borde); padding-top: 1rem; }
+.panel-tio summary { font-weight: 800; color: var(--gris); cursor: pointer; }
+.panel-tio summary i { margin-right: 0.3rem; }
+.panel-tio[open] summary { margin-bottom: 1rem; }
+.dia-clase { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-weight: 700; }
+.dia-clase select { padding: 0.45rem 0.7rem; border: 2px solid var(--borde); border-radius: var(--radio); font: 700 0.95rem var(--cuerpo); text-transform: capitalize; }
+.panel-tio .tabla { font-size: 0.88rem; }
+.panel-tio .tabla td:first-child { white-space: normal; }
+.entrega { display: flex; align-items: center; gap: 0.3rem; margin-top: 0.25rem; font-size: 0.8rem; color: var(--gris); }
+.enlace-boton.peligro { color: var(--rojo); }
+
+/* Guardado: este navegador o la nube (Supabase) */
+.nube {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radio);
+    background: var(--blanco);
+    border: 2px solid var(--borde);
+}
+.nube > i { font-size: 1.8rem; color: var(--gris); line-height: 1; }
+.nube.conectada { border-color: var(--verde); }
+.nube.conectada > i { color: var(--verde); }
+.nube > div { flex: 1; min-width: 0; }
+.nube p { margin: 0.2rem 0 0.5rem; font-size: 0.9rem; color: var(--gris); }
+
+/* ---------- Diálogo del premio ---------- */
+.dialogo-cinturon { display: block; width: 8rem; margin: 0.5rem auto 1.5rem; --cinturon: #fff; }
+.dialogo-cinturon .cinturon-tela { height: 1.4rem; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.15), 0 0 0 2px var(--borde); }
+.premio-imagenes { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-bottom: 1rem; }
+.premio-imagenes img {
+    width: 7.5rem;
+    height: 7.5rem;
+    object-fit: contain;
+    padding: 0.4rem;
+    border-radius: var(--radio);
+    background: var(--blanco);
+    box-shadow: var(--sombra);
+    animation: rebote 0.6s ease both;
+}
+.premio-imagenes img:nth-child(2) { animation-delay: 0.1s; }
+.premio-texto { margin: 0 0 0.5rem; font: 700 1.4rem var(--titulos); color: var(--rojo); }
+.dialogo-nota { margin: 0 0 1.25rem; color: var(--gris); }
+.premio-misterio {
+    position: relative;
+    width: 7rem;
+    height: 7rem;
+    margin: 0 auto 1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--tinta), var(--tinta-2));
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 3.5rem;
+}
+.premio-misterio span { position: absolute; font: 700 3rem var(--titulos); color: var(--amarillo); }
+
+@media (max-width: 760px) {
+    .cinturones { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+    .perfil-chip { max-width: 7.5rem; padding-right: 0.6rem; }
+    .cinturones { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .premio-imagenes img { width: 5.5rem; height: 5.5rem; }
+}

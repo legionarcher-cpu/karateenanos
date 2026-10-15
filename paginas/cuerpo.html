@@ -1,0 +1,96 @@
+<!-- ==================================================
+     PARTES DEL CUERPO (ventana interna de index.html)
+     Se abre con data-ventana="cuerpo" (js/web.js).
+     Las tablas [data-vocabulario] se llenan con VOCABULARIO de js/datos.js.
+     ================================================== -->
+<div class="pagina-interna">
+    <div class="sol-banner color-naranja" data-kanji="体">
+        <span class="sol-banner-icono"><i class="bi bi-person-arms-up"></i></span>
+        <div>
+            <span class="sol-etiqueta">Terminología</span>
+            <h1>Las partes del cuerpo en japonés</h1>
+            <p>Son las palabras que se usan en el dojo para nombrar el cuerpo, con qué parte golpeamos y hacia dónde.</p>
+        </div>
+    </div>
+
+    <div class="pestanas" data-pestanas>
+        <button type="button" data-pestana="general"><i class="bi bi-person"></i> Cuerpo</button>
+        <button type="button" data-pestana="mano"><i class="bi bi-hand-index-thumb"></i> Mano</button>
+        <button type="button" data-pestana="pie"><i class="bi bi-person-walking"></i> Pie</button>
+    </div>
+
+    <!-- ---------- Cuerpo en general ---------- -->
+    <div class="pestana-panel" data-panel="general">
+        <div class="dos-columnas">
+            <button type="button" class="lamina" data-ampliar="img/cuerpo/cuerpo-general.jpg">
+                <img src="img/cuerpo/cuerpo-general.jpg" alt="Partes del cuerpo en japonés" loading="lazy">
+            </button>
+            <div class="tabla-envoltura">
+                <table class="tabla">
+                    <thead><tr><th>Japonés</th><th>Kanji</th><th>Español</th></tr></thead>
+                    <tbody data-vocabulario="cuerpo"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="sol-destacado">
+            <i class="bi bi-lightbulb-fill"></i>
+            <div>
+                <strong>¡Ojo con "Kata"!</strong>
+                <p>Kata (<span lang="ja">肩</span>) es "hombro"… ¡pero también se llama kata (<span lang="ja">型</span>) a las formas que practicamos! Se escriben distinto en japonés.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------- Superficies de la mano ---------- -->
+    <div class="pestana-panel" data-panel="mano">
+        <div class="dos-columnas">
+            <button type="button" class="lamina" data-ampliar="img/cuerpo/superficies-mano.jpg">
+                <img src="img/cuerpo/superficies-mano.jpg" alt="Superficies de la mano: puño y mano abierta" loading="lazy">
+            </button>
+            <div class="tabla-envoltura">
+                <table class="tabla">
+                    <thead><tr><th>Japonés</th><th>Kanji</th><th>Qué parte es</th></tr></thead>
+                    <tbody data-vocabulario="mano"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="sol-destacado">
+            <i class="bi bi-hand-thumbs-up-fill"></i>
+            <div>
+                <strong>Puño o mano abierta</strong>
+                <p>Con el puño se golpea con el frente (seiken), el dorso (uraken) o el lado del meñique (tettsui). Con la mano abierta, con los cantos, la base de la palma o la punta de los dedos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------- Superficies del pie ---------- -->
+    <div class="pestana-panel" data-panel="pie">
+        <div class="dos-columnas">
+            <button type="button" class="lamina" data-ampliar="img/cuerpo/superficies-pie.jpg">
+                <img src="img/cuerpo/superficies-pie.jpg" alt="Superficies del pie, vista externa" loading="lazy">
+            </button>
+            <div class="tabla-envoltura">
+                <table class="tabla">
+                    <thead><tr><th>Japonés</th><th>Kanji</th><th>Qué parte es</th></tr></thead>
+                    <tbody data-vocabulario="pie"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="sol-destacado">
+            <i class="bi bi-lightbulb-fill"></i>
+            <div>
+                <strong>Truco para patear</strong>
+                <p>En mae-geri los dedos se recogen hacia arriba para golpear con el koshi (almohadilla). En yoko-geri el tobillo se dobla para golpear con el sokutō (canto del pie).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="sol-cta">
+        <h2>¿Ya te las sabes?</h2>
+        <p>Repásalas con las tarjetas o ponte a prueba en el quiz.</p>
+        <div class="sol-cta-botones">
+            <button type="button" class="boton boton-azul" data-ventana="tarjetas" data-tema="cuerpo"><i class="bi bi-layers-fill"></i> Tarjetas</button>
+            <button type="button" class="boton boton-amarillo" data-ventana="quiz" data-tema="cuerpo"><i class="bi bi-patch-question-fill"></i> Quiz</button>
+        </div>
+    </div>
+</div>

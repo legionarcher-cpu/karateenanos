@@ -1,0 +1,51 @@
+<!-- ==================================================
+     TARJETAS DE MEMORIA (ventana interna de index.html)
+     Se abre con data-ventana="tarjetas" (data-tema="cuerpo" para abrir un tema).
+     Lógica: Practica.tarjetas en js/practica.js · Estilos: css/practica.css
+     ================================================== -->
+<div class="pagina-interna">
+    <div class="sol-banner color-azul" data-kanji="覚">
+        <span class="sol-banner-icono"><i class="bi bi-layers-fill"></i></span>
+        <div>
+            <span class="sol-etiqueta">Repaso</span>
+            <h1>Tarjetas de memoria</h1>
+            <p>Lee la palabra en japonés, piensa qué significa y toca la tarjeta para darle la vuelta.</p>
+        </div>
+    </div>
+
+    <div class="temas" data-temas></div>
+
+    <div class="tarjetas-zona">
+        <div class="tarjetas-progreso">
+            <span data-contador>1 / 1</span>
+            <span class="tarjetas-sabidas"><i class="bi bi-check-circle-fill"></i> Me las sé: <strong data-sabidas>0</strong></span>
+        </div>
+        <div class="barra"><span data-barra></span></div>
+
+        <button type="button" class="tarjeta" data-tarjeta aria-label="Dar la vuelta a la tarjeta">
+            <span class="tarjeta-cara tarjeta-frente">
+                <small>¿Qué significa?</small>
+                <span class="tarjeta-kanji" lang="ja" data-kanji></span>
+                <strong data-japones></strong>
+                <em><i class="bi bi-arrow-repeat"></i> Toca para voltear</em>
+            </span>
+            <span class="tarjeta-cara tarjeta-atras">
+                <small>Significa</small>
+                <strong data-espanol></strong>
+                <span class="tarjeta-mini" data-japones-atras></span>
+            </span>
+        </button>
+
+        <div class="tarjetas-botones">
+            <button type="button" class="boton boton-borde" data-anterior aria-label="Anterior"><i class="bi bi-chevron-left"></i></button>
+            <button type="button" class="boton boton-borde" data-repasar><i class="bi bi-arrow-counterclockwise"></i> Otra vez</button>
+            <button type="button" class="boton boton-verde" data-sabida><i class="bi bi-check-lg"></i> ¡Me la sé!</button>
+            <button type="button" class="boton boton-borde" data-siguiente aria-label="Siguiente"><i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="tarjetas-extra">
+            <button type="button" class="enlace-boton" data-mezclar><i class="bi bi-shuffle"></i> Mezclar</button>
+            <button type="button" class="enlace-boton" data-invertir><i class="bi bi-arrow-left-right"></i> Al revés (español → japonés)</button>
+            <button type="button" class="enlace-boton" data-escuchar><i class="bi bi-volume-up-fill"></i> Escuchar</button>
+        </div>
+    </div>
+</div>

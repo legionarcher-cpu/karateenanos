@@ -1,0 +1,154 @@
+<!-- ==================================================
+     TÉCNICAS Y CONCEPTOS (ventana interna de index.html)
+     Se abre con data-ventana="tecnicas" (js/web.js). Pestañas: [data-pestanas]
+     ================================================== -->
+<div class="pagina-interna">
+    <div class="sol-banner color-verde" data-kanji="技">
+        <span class="sol-banner-icono"><i class="bi bi-lightning-charge-fill"></i></span>
+        <div>
+            <span class="sol-etiqueta">Waza · <span lang="ja">技</span></span>
+            <h1>Técnicas y conceptos del karateka</h1>
+            <p>A dónde apuntar, cómo poner el cuerpo y los tres secretos de una técnica poderosa.</p>
+        </div>
+    </div>
+
+    <div class="pestanas" data-pestanas>
+        <button type="button" data-pestana="niveles"><i class="bi bi-bullseye"></i> Niveles</button>
+        <button type="button" data-pestana="cadera"><i class="bi bi-arrow-repeat"></i> Frente o de lado</button>
+        <button type="button" data-pestana="secretos"><i class="bi bi-stars"></i> Hikite · Kime · Zanshin</button>
+        <button type="button" data-pestana="kihon"><i class="bi bi-lightning"></i> Kihon básico</button>
+        <button type="button" data-pestana="defensa"><i class="bi bi-shield-shaded"></i> Bloqueo y contraataque</button>
+    </div>
+
+    <!-- ---------- Niveles y direcciones ---------- -->
+    <div class="pestana-panel" data-panel="niveles">
+        <button type="button" class="lamina" data-ampliar="img/tecnicas/niveles.jpg">
+            <img src="img/tecnicas/niveles.jpg" alt="Niveles de objetivo: jōdan, chūdan y gedan" loading="lazy">
+        </button>
+        <div class="sol-funciones">
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">上</span><h3>Jōdan · nivel alto</h3><p>Cabeza y cuello. Ejemplos: oi-zuki jōdan, age-uke.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">中</span><h3>Chūdan · nivel medio</h3><p>El tronco. Ejemplos: gyaku-zuki chūdan, mae-geri.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">下</span><h3>Gedan · nivel bajo</h3><p>Debajo del cinturón. Ejemplo: gedan-barai.</p></article>
+        </div>
+        <h2 class="subtitulo-interno"><i class="bi bi-compass"></i> Lados y direcciones</h2>
+        <div class="sol-funciones">
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">左</span><h3>Hidari</h3><p>Izquierda.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">右</span><h3>Migi</h3><p>Derecha.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">前</span><h3>Mae</h3><p>Frente. Por eso mae-geri es la patada de frente.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">後</span><h3>Ushiro</h3><p>Atrás. Ushiro-geri es la patada hacia atrás.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">横</span><h3>Yoko</h3><p>Lado. Yoko-geri es la patada lateral.</p></article>
+        </div>
+    </div>
+
+    <!-- ---------- Shōmen, hanmi y gyaku-hanmi ---------- -->
+    <div class="pestana-panel" data-panel="cadera">
+        <button type="button" class="lamina" data-ampliar="img/tecnicas/shomen-hanmi.jpg">
+            <img src="img/tecnicas/shomen-hanmi.jpg" alt="Shōmen, hanmi y gyaku-hanmi" loading="lazy">
+        </button>
+        <div class="sol-funciones">
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">正</span><h3>Shōmen · de frente</h3><p>Cadera y hombros mirando al frente. Para oi-zuki y gyaku-zuki.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">半</span><h3>Hanmi · medio de lado</h3><p>Cadera y hombros a unos 45°. Para gedan-barai, age-uke, soto-uke y en Kokutsu-dachi.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">逆</span><h3>Gyaku-hanmi · al revés</h3><p>Hanmi invertido, por ejemplo cuando la cadera regresa después de un gyaku-zuki.</p></article>
+        </div>
+        <div class="sol-destacado">
+            <i class="bi bi-lightbulb-fill"></i>
+            <div>
+                <strong>La cadera es el motor</strong>
+                <p>Girar la cadera de hanmi a shōmen es lo que le da potencia a un golpe. ¡El brazo solo es la punta de la flecha!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------- Hikite, kime y zanshin ---------- -->
+    <div class="pestana-panel" data-panel="secretos">
+        <button type="button" class="lamina" data-ampliar="img/tecnicas/hikite-kime-zanshin.jpg">
+            <img src="img/tecnicas/hikite-kime-zanshin.jpg" alt="Hikite, kime y zanshin" loading="lazy">
+        </button>
+        <div class="sol-funciones">
+            <article class="sol-funcion">
+                <span class="sol-funcion-icono" lang="ja">引</span>
+                <h3>Hikite · la mano que regresa</h3>
+                <p>Mientras una mano golpea, la otra regresa con la misma fuerza a la cadera. Da equilibrio y más potencia.</p>
+            </article>
+            <article class="sol-funcion">
+                <span class="sol-funcion-icono" lang="ja">極</span>
+                <h3>Kime · toda la fuerza en un punto</h3>
+                <p>En el momento del impacto todo el cuerpo se aprieta un instante, con la respiración, y luego se relaja.</p>
+            </article>
+            <article class="sol-funcion">
+                <span class="sol-funcion-icono" lang="ja">残</span>
+                <h3>Zanshin · seguir alerta</h3>
+                <p>Después de la técnica no te distraes: sigues mirando y listo para reaccionar.</p>
+            </article>
+        </div>
+    </div>
+
+    <!-- ---------- Kihon: técnicas básicas ---------- -->
+    <div class="pestana-panel" data-panel="kihon">
+        <p class="texto-intro"><strong>Kihon</strong> son los movimientos básicos que se repiten una y otra vez en clase. Estos son los que aparecen en las posiciones que estamos aprendiendo; tu sensei te irá enseñando cada uno.</p>
+
+        <h2 class="subtitulo-interno"><span lang="ja">突き</span> Tsuki · golpes de puño</h2>
+        <div class="sol-funciones">
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-arrow-right"></i></span><h3>Oi-zuki</h3><p>Golpe avanzando: el puño que golpea es del mismo lado de la pierna que va adelante. En Zenkutsu, cadera de frente.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-arrow-left-right"></i></span><h3>Gyaku-zuki</h3><p>Golpe "al revés": el puño contrario a la pierna adelantada. La cadera gira para darle potencia.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-arrow-up-right"></i></span><h3>Uraken-uchi</h3><p>Golpe con el dorso del puño (uraken), rápido como un látigo.</p></article>
+        </div>
+
+        <h2 class="subtitulo-interno"><span lang="ja">受け</span> Uke · bloqueos</h2>
+        <div class="sol-destacado">
+            <i class="bi bi-shield-shaded"></i>
+            <div>
+                <strong>Los bloqueos tienen su propia pestaña</strong>
+                <p>Age-uke, soto-uke, uchi-uke, gedan-barai y shutō-uke, paso a paso y con sus contraataques.</p>
+                <button type="button" class="boton boton-verde" data-ir-pestana="defensa" style="margin-top:0.75rem"><i class="bi bi-arrow-right"></i> Ver bloqueo y contraataque</button>
+            </div>
+        </div>
+
+        <h2 class="subtitulo-interno"><span lang="ja">蹴り</span> Geri · patadas</h2>
+        <div class="sol-funciones">
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-chevron-double-up"></i></span><h3>Mae-geri</h3><p>Patada de frente. Se golpea con el koshi (almohadilla), con los dedos recogidos hacia arriba.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-chevron-double-right"></i></span><h3>Yoko-geri</h3><p>Patada lateral con el sokutō (canto del pie). Keage = de rebote; kekomi = de empuje.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-arrow-clockwise"></i></span><h3>Mawashi-geri</h3><p>Patada circular, de lado hacia el frente.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-chevron-double-down"></i></span><h3>Ushiro-geri</h3><p>Patada hacia atrás con el talón (kakato).</p></article>
+        </div>
+    </div>
+
+    <!-- ---------- Bloqueo y contraataque (tarjetas armadas con DEFENSAS de js/datos.js) ---------- -->
+    <div class="pestana-panel" data-panel="defensa">
+        <p class="texto-intro">En karate primero <strong>nos defendemos</strong> y enseguida <strong>respondemos</strong>. Un buen contraataque tiene siempre estos 5 pasos:</p>
+        <ol class="secuencia">
+            <li><strong>Bloquear</strong><span>Uke: desvía el ataque</span></li>
+            <li><strong>Girar la cadera</strong><span>De hanmi a shōmen</span></li>
+            <li><strong>Contraatacar</strong><span>Gyaku-zuki con hikite</span></li>
+            <li><strong>¡Kiai!</strong><span>Toda la fuerza: kime</span></li>
+            <li><strong>Zanshin</strong><span>Sigue alerta</span></li>
+        </ol>
+
+        <div id="zonaDefensas">
+            <div class="filtros">
+                <button type="button" data-segmento="todos" class="activo">Todos</button>
+                <button type="button" data-segmento="bloqueo">Bloqueos</button>
+                <button type="button" data-segmento="contraataque">Contraataques</button>
+            </div>
+            <div class="productos" id="rejillaDefensas"></div>
+        </div>
+
+        <h2 class="subtitulo-interno"><i class="bi bi-people-fill"></i> Reglas para practicar en pareja</h2>
+        <div class="sol-funciones">
+            <article class="sol-funcion"><span class="sol-funcion-icono" lang="ja">礼</span><h3>Rei: saludo</h3><p>Se saluda al compañero antes de empezar y al terminar.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-megaphone"></i></span><h3>Avisar el ataque</h3><p>El que ataca dice a dónde va: "¡Jōdan!", "¡Chūdan!" o "¡Mae-geri!".</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-hand-thumbs-up"></i></span><h3>Control total</h3><p>Los golpes se detienen a unos centímetros del compañero. ¡Nunca se golpea de verdad!</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-speedometer"></i></span><h3>Primero lento</h3><p>Empieza despacio hasta que salga bien; la velocidad llega sola.</p></article>
+            <article class="sol-funcion"><span class="sol-funcion-icono"><i class="bi bi-arrow-repeat"></i></span><h3>Turnarse</h3><p>Cada uno ataca y defiende el mismo número de veces, con los dos lados.</p></article>
+        </div>
+    </div>
+
+    <div class="sol-cta">
+        <h2>¡Pon a prueba lo que sabes!</h2>
+        <p>Golpes, bloqueos, niveles y conceptos en tarjetas y en el quiz.</p>
+        <div class="sol-cta-botones">
+            <button type="button" class="boton boton-azul" data-ventana="tarjetas" data-tema="tecnicas"><i class="bi bi-layers-fill"></i> Tarjetas de técnicas</button>
+            <button type="button" class="boton boton-amarillo" data-ventana="quiz" data-tema="tecnicas"><i class="bi bi-patch-question-fill"></i> Quiz de técnicas</button>
+        </div>
+    </div>
+</div>

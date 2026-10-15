@@ -1,0 +1,51 @@
+<!-- ==================================================
+     QUIZ DEL DOJO (ventana interna de index.html)
+     Se abre con data-ventana="quiz" (data-tema="posiciones" para elegir un tema).
+     Lógica: Practica.quiz en js/practica.js · Estilos: css/practica.css
+     Cada respuesta correcta suma 1 estrella (se guarda en este navegador).
+     ================================================== -->
+<div class="pagina-interna">
+    <div class="sol-banner color-morado" data-kanji="問">
+        <span class="sol-banner-icono"><i class="bi bi-patch-question-fill"></i></span>
+        <div>
+            <span class="sol-etiqueta">Ponte a prueba</span>
+            <h1>Quiz del dojo</h1>
+            <p>Hasta 10 preguntas por tema. Cada respuesta correcta es una estrella para tu cinturón. ¡Tú puedes!</p>
+        </div>
+    </div>
+
+    <!-- Paso 1: elegir tema -->
+    <div class="quiz-inicio" data-paso="inicio">
+        <h2 class="subtitulo-interno"><i class="bi bi-ui-checks-grid"></i> Elige un tema</h2>
+        <div class="temas" data-temas></div>
+        <button type="button" class="boton boton-rojo boton-grande" data-empezar><i class="bi bi-play-fill"></i> ¡Empezar!</button>
+    </div>
+
+    <!-- Paso 2: preguntas -->
+    <div class="quiz-juego" data-paso="juego" hidden>
+        <div class="tarjetas-progreso">
+            <span data-contador>Pregunta 1 de 10</span>
+            <span class="tarjetas-sabidas"><i class="bi bi-star-fill"></i> <strong data-puntos>0</strong></span>
+        </div>
+        <div class="barra"><span data-barra></span></div>
+        <div class="quiz-pregunta">
+            <span class="quiz-kanji" lang="ja" data-kanji></span>
+            <h3 data-pregunta></h3>
+        </div>
+        <div class="quiz-opciones" data-opciones></div>
+        <p class="quiz-mensaje" data-mensaje aria-live="polite"></p>
+        <button type="button" class="boton boton-azul" data-siguiente hidden>Siguiente <i class="bi bi-arrow-right"></i></button>
+    </div>
+
+    <!-- Paso 3: resultado -->
+    <div class="quiz-final" data-paso="final" hidden>
+        <div class="quiz-medalla" data-medalla></div>
+        <h2 data-titulo-final></h2>
+        <p data-texto-final></p>
+        <div class="quiz-estrellas" data-estrellas-final></div>
+        <div class="sol-cta-botones">
+            <button type="button" class="boton boton-rojo" data-otra-vez><i class="bi bi-arrow-repeat"></i> Otra vez</button>
+            <button type="button" class="boton boton-borde" data-cambiar-tema><i class="bi bi-ui-checks-grid"></i> Cambiar tema</button>
+        </div>
+    </div>
+</div>

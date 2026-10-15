@@ -1,0 +1,361 @@
+/* ==================================================
+   KARATE PARA LOS ENANOS · ESTILOS DE LOS JUEGOS
+   Panel de estrellas (portada), Tarjetas de memoria y Quiz del dojo.
+   Usa los colores de css/web.css (:root).
+   ================================================== */
+
+/* ---------- Botones extra ---------- */
+.boton-verde { background: var(--verde); color: var(--blanco); box-shadow: 0 0.5rem 1.2rem rgba(19, 160, 111, 0.3); }
+.boton-verde:hover { background: #0B7F55; }
+.boton-grande { padding: 1rem 2rem; font-size: 1.15rem; }
+.enlace-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: var(--gris);
+    font: 700 0.9rem var(--cuerpo);
+    cursor: pointer;
+}
+.enlace-boton:hover { background: var(--blanco); color: var(--tinta); }
+.enlace-boton.activo { background: var(--tinta); color: var(--blanco); }
+
+/* ==================================================
+   ESTRELLAS Y CINTURONES (portada)
+   ================================================== */
+.estrellas-panel {
+    margin-top: 2.25rem;
+    padding: 1.5rem;
+    border-radius: var(--radio-grande);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.estrellas-titulo { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.25rem; }
+.estrellas-titulo > i {
+    width: 3.2rem;
+    height: 3.2rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--amarillo);
+    color: var(--tinta);
+    font-size: 1.5rem;
+}
+.estrellas-titulo strong { display: block; color: var(--blanco); font: 700 1.3rem var(--titulos); }
+.estrellas-titulo small { color: rgba(255, 255, 255, 0.75); font-size: 0.95rem; }
+
+.cinturones { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0.5rem; }
+.cinturon { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; opacity: 0.3; transition: opacity 0.3s ease; }
+.cinturon.ganado { opacity: 1; }
+.cinturon small { font-size: 0.75rem; font-weight: 700; color: rgba(255, 255, 255, 0.85); }
+.cinturon-tela {
+    position: relative;
+    width: 100%;
+    height: 1.1rem;
+    border-radius: 0.3rem;
+    background: var(--cinturon);
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.15);
+}
+/* Nudo del cinturón */
+.cinturon-tela::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -0.2rem;
+    width: 0.9rem;
+    height: 1.5rem;
+    transform: translateX(-50%);
+    border-radius: 0.25rem;
+    background: var(--cinturon);
+    box-shadow: 0 0 0 2px rgba(29, 27, 76, 0.4);
+}
+
+/* ==================================================
+   TEMAS (chips para elegir tema en Tarjetas y Quiz)
+   ================================================== */
+.temas, .opciones-chip { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+.temas button, .opciones-chip button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.1rem;
+    border: 2px solid var(--borde);
+    border-radius: 999px;
+    background: var(--blanco);
+    color: var(--texto);
+    font: 800 0.92rem var(--cuerpo);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.temas button:hover, .opciones-chip button:hover { border-color: var(--tinta); transform: translateY(-1px); }
+.temas button.activo, .opciones-chip button.activo { background: var(--tinta); border-color: var(--tinta); color: var(--blanco); }
+
+/* Barra de avance */
+.barra { height: 0.6rem; border-radius: 999px; background: var(--borde); overflow: hidden; margin-bottom: 1.5rem; }
+.barra span { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--amarillo), var(--naranja), var(--rojo)); transition: width 0.4s ease; }
+
+/* ==================================================
+   TARJETAS DE MEMORIA
+   ================================================== */
+.tarjetas-zona { position: relative; max-width: 34rem; margin: 0 auto; }
+.tarjetas-progreso { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.5rem; font-weight: 800; color: var(--gris); }
+.tarjetas-sabidas i { color: var(--verde); }
+.quiz-juego .tarjetas-sabidas i { color: var(--amarillo); }
+
+.tarjeta {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    min-height: 15rem;
+    padding: 0;
+    border: none;
+    background: none;
+    perspective: 1200px;
+    cursor: pointer;
+    font: inherit;
+}
+.tarjeta.entra { animation: aparecer 0.35s ease both; }
+.tarjeta-cara {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 1.5rem;
+    border-radius: var(--radio-grande);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: transform 0.55s cubic-bezier(0.3, 1.3, 0.5, 1);
+    text-align: center;
+}
+.tarjeta-frente {
+    background: linear-gradient(145deg, #3A9BF0, #1565C0);
+    color: var(--blanco);
+    box-shadow: 0 0.6rem 0 #0F4C8F, var(--sombra);
+}
+.tarjeta-atras {
+    background: var(--blanco);
+    color: var(--tinta);
+    border: 4px solid var(--amarillo);
+    box-shadow: 0 0.6rem 0 var(--amarillo), var(--sombra);
+    transform: rotateY(180deg);
+}
+.tarjeta.volteada .tarjeta-frente { transform: rotateY(-180deg); }
+.tarjeta.volteada .tarjeta-atras { transform: rotateY(0); }
+.tarjeta small { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+.tarjeta-kanji { font-size: clamp(2.5rem, 8vw, 3.8rem); line-height: 1.1; font-weight: 700; }
+.tarjeta-frente strong { font: 700 clamp(1.4rem, 4vw, 2rem) var(--titulos); }
+.tarjeta-atras strong { font: 700 clamp(1.25rem, 3.5vw, 1.75rem) var(--titulos); }
+.tarjeta em { margin-top: 0.5rem; font-style: normal; font-size: 0.85rem; opacity: 0.75; }
+.tarjeta-mini { color: var(--rojo); font-weight: 800; }
+.tarjeta.sabida .tarjeta-frente::after {
+    content: '\F26A'; /* bi-check-circle-fill */
+    font-family: 'bootstrap-icons';
+    position: absolute;
+    top: 0.9rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #7CFFC4;
+}
+
+.tarjetas-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1.75rem; }
+.tarjetas-extra { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem; margin-top: 1rem; }
+
+/* ==================================================
+   QUIZ DEL DOJO
+   ================================================== */
+.quiz-inicio { text-align: center; }
+.quiz-inicio .temas { justify-content: center; }
+.quiz-juego { max-width: 44rem; margin: 0 auto; }
+.quiz-pregunta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 1.5rem;
+    border-radius: var(--radio-grande);
+    background: linear-gradient(135deg, #9152FA, #5B16C9);
+    color: var(--blanco);
+    box-shadow: 0 0.5rem 0 #45109A;
+}
+.quiz-kanji {
+    flex: none;
+    min-width: 4.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+}
+.quiz-pregunta h3 { margin: 0; color: var(--blanco); font-size: clamp(1.15rem, 2.6vw, 1.45rem); }
+
+.quiz-opciones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.quiz-opcion {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.95rem 1.1rem;
+    border: 3px solid var(--borde);
+    border-radius: var(--radio-grande);
+    background: var(--blanco);
+    color: var(--texto);
+    font: 700 1rem var(--cuerpo);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.quiz-opcion:hover:not(:disabled) { transform: translateY(-2px); border-color: #9152FA; }
+.quiz-opcion:disabled { cursor: default; }
+.quiz-opcion .letra {
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--amarillo-claro);
+    color: var(--tinta);
+    font-weight: 800;
+}
+.quiz-opcion.correcta { border-color: var(--verde); background: #DDF8EC; animation: rebote 0.4s ease; }
+.quiz-opcion.correcta .letra { background: var(--verde); color: var(--blanco); }
+.quiz-opcion.incorrecta { border-color: var(--rojo); background: #FDECEE; animation: temblar 0.4s ease; }
+.quiz-opcion.incorrecta .letra { background: var(--rojo); color: var(--blanco); }
+@keyframes rebote { 50% { transform: scale(1.04); } }
+@keyframes temblar { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+
+.quiz-mensaje { min-height: 1.6em; margin: 1rem 0; font: 700 1.15rem var(--titulos); text-align: center; }
+.quiz-mensaje.bien { color: var(--verde); }
+.quiz-mensaje.mal { color: var(--rojo); }
+.quiz-juego [data-siguiente] { display: flex; margin: 0 auto; }
+.quiz-juego [data-siguiente][hidden] { display: none; }
+
+.quiz-final { position: relative; overflow: hidden; max-width: 36rem; margin: 0 auto; padding: 2rem 1rem; text-align: center; }
+.quiz-medalla {
+    width: 7rem;
+    height: 7rem;
+    margin: 0 auto 1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFE08A, var(--amarillo) 60%, #E09F00);
+    color: var(--tinta);
+    font-size: 3.2rem;
+    box-shadow: 0 0 0 8px var(--amarillo-claro), var(--sombra);
+    animation: rebote 0.8s ease;
+}
+.quiz-final h2 { font-size: 1.8rem; }
+.quiz-estrellas { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.25rem; margin: 1rem 0 1.75rem; font-size: 1.8rem; color: var(--amarillo); }
+.quiz-estrellas i { animation: aparecer 0.4s ease both; }
+.quiz-estrellas .bi-star { color: var(--borde); }
+
+/* ==================================================
+   CALENTAMIENTO (video + lista de ejercicios)
+   ================================================== */
+.video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    max-width: 50rem;
+    margin: 0 auto;
+    border-radius: var(--radio-grande);
+    overflow: hidden;
+    background: var(--tinta);
+    box-shadow: 0 0.6rem 0 #C92B55, var(--sombra);
+    border: 4px solid var(--blanco);
+}
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-pie {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    max-width: 50rem;
+    margin: 1.25rem auto 0;
+    font-size: 0.92rem;
+    color: var(--gris);
+}
+.video-pie a { font-weight: 800; color: var(--rojo); text-decoration: none; }
+.video-pie a:hover { text-decoration: underline; }
+
+.calentamiento {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 0.6rem;
+    padding: 1.5rem;
+    border-radius: var(--radio-grande);
+    background: var(--blanco);
+    box-shadow: var(--sombra);
+}
+.calentamiento .barra { margin-bottom: 0.5rem; }
+.ejercicio {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--borde);
+    border-radius: var(--radio);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.ejercicio:hover { border-color: var(--rosa); }
+.ejercicio input {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: none;
+    accent-color: var(--verde);
+    cursor: pointer;
+}
+.ejercicio strong { color: var(--tinta); }
+.ejercicio.hecho { background: #DDF8EC; border-color: var(--verde); }
+.ejercicio.hecho span { text-decoration: line-through; text-decoration-color: rgba(11, 127, 85, 0.5); }
+.calentamiento-listo {
+    margin: 0.5rem 0 0;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radio);
+    background: var(--amarillo-claro);
+    font: 700 1.15rem var(--titulos);
+    color: var(--tinta);
+    text-align: center;
+    animation: rebote 0.6s ease;
+}
+.calentamiento-listo i { color: var(--naranja); }
+.calentamiento [data-reiniciar] { justify-self: center; }
+
+/* ==================================================
+   CONFETI
+   ================================================== */
+.confeti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 5; }
+.confeti span {
+    position: absolute;
+    top: -1rem;
+    width: 0.6rem;
+    height: 0.9rem;
+    border-radius: 2px;
+    animation: caer 1.8s ease-in forwards;
+}
+@keyframes caer {
+    to { transform: translateY(32rem) rotate(var(--giro)); opacity: 0; }
+}
+
+/* ==================================================
+   CELULAR
+   ================================================== */
+@media (max-width: 760px) {
+    .cinturones { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 1rem; }
+}
+
+@media (max-width: 520px) {
+    .quiz-opciones { grid-template-columns: minmax(0, 1fr); }
+    .quiz-pregunta { flex-direction: column; text-align: center; padding: 1.25rem; }
+    .tarjeta { aspect-ratio: 4 / 3; }
+    .tarjetas-botones .boton { padding: 0.75rem 1rem; }
+}
